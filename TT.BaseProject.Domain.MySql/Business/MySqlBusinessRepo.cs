@@ -51,7 +51,8 @@ namespace TT.BaseProject.Domain.MySql.Business
             var context = _contextData ?? _contextService.Get();
             if (context == null)
             {
-                throw new Exception($"Not found context");
+                //TODO Tạm thời rem lại context, để sau khi bổ sung authen author thì bổ sung vào
+                //throw new Exception($"Not found context");
             }
 
             #region Lấy Connection trong context khi là ứng dụng multi tenant

@@ -20,10 +20,9 @@ builder.Services.AddSingleton<ISerializerService, SerializerService>();
 
 builder.Services.AddScoped<IContextService, ContextService>();
 
-builder.Services.AddScoped<IExampleRepo, MySqlExampleRepo>();
-
 builder.Services.AddScoped<IExampleService, ExampleService>();
 
+builder.Services.AddScoped<IExampleRepo, MySqlExampleRepo>();
 
 
 
