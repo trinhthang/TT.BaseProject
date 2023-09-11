@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Collections;
 using System.Data;
@@ -17,13 +16,13 @@ namespace TT.BaseProject.Domain.MySql.Business
     public class MySqlBusinessRepo : MySqlRepo, IBusinessBaseRepo
     {
         private IContextService _contextService;
-        protected readonly IOptions<ConnectionConfig> _config;
+        private readonly ConnectionConfig _connectionConfig;
 
         private ContextData _contextData = null;
 
-        public MySqlBusinessRepo(IOptions<ConnectionConfig> config, IServiceProvider serviceProvider) : base(null, serviceProvider)
+        public MySqlBusinessRepo(IOptions<ConnectionConfig> connectionConfig, IServiceProvider serviceProvider) : base(null, serviceProvider)
         {
-            _config = config;
+            _connectionConfig = connectionConfig.Value;
             SetContextService();
         }
 
@@ -58,7 +57,7 @@ namespace TT.BaseProject.Domain.MySql.Business
             #region Lấy Connection trong context khi là ứng dụng multi tenant
             #endregion
 
-            return _config.Value.Business;
+            return _connectionConfig.Business;
         }
 
         public async Task<List<T>> QueryAsync<T>(string commandText, Dictionary<string, object> param)
