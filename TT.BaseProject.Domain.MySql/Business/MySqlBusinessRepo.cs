@@ -20,7 +20,7 @@ namespace TT.BaseProject.Domain.MySql.Business
 
         private ContextData _contextData = null;
 
-        public MySqlBusinessRepo(IOptions<ConnectionConfig> connectionConfig, IServiceProvider serviceProvider) : base(null, serviceProvider)
+        public MySqlBusinessRepo(IOptions<ConnectionConfig> connectionConfig, IServiceProvider serviceProvider) : base(connectionConfig.Value.Business, serviceProvider)
         {
             _connectionConfig = connectionConfig.Value;
             SetContextService();

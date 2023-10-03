@@ -25,6 +25,7 @@ builder.Services.AddScoped<IExampleService, ExampleService>();
 //
 builder.Services.AddScoped<IExampleRepo, MySqlExampleRepo>();
 
+
 // Bọc bắt exception
 builder.Services.AddControllers(options =>
 {

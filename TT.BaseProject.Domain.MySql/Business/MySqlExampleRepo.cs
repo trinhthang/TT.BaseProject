@@ -16,7 +16,7 @@ namespace TT.BaseProject.Domain.MySql.Business
         protected readonly IContextService _contextService;
         protected readonly IOptions<ConnectionConfig> _config;
 
-        public MySqlExampleRepo(IOptions<ConnectionConfig> config, IServiceProvider serviceProvider) : base(null, serviceProvider)
+        public MySqlExampleRepo(IOptions<ConnectionConfig> config, IServiceProvider serviceProvider) : base(config, serviceProvider)
         {
             _config = config;
             _contextService = serviceProvider.GetRequiredService<IContextService>();
