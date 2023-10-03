@@ -14,9 +14,10 @@ namespace TT.BaseProject.Domain.Context
 
         public string FullName { get; set; }
 
-        /// <summary>
-        /// Nếu làm multi tenant thì mới cần dùng đến Connection trong Context
-        /// </summary>
-        //public string Connection { get; set; }
+        #region Nếu làm multi tenant, mỗi tenant 1 database thì mới cần dùng đến DatabaseId, Connection trong Context
+        public Guid? DatabaseId { get; set; }
+
+        public string Connection { get; set; } 
+        #endregion
     }
 }
