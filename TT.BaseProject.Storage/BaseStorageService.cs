@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,15 +14,15 @@ namespace TT.BaseProject.Storage
     {
         protected readonly StorageConfig _storageConfig;
         //protected readonly ICacheService _cacheService;
-        private string _defaultFolder;
+        private readonly string _defaultFolder;
 
-        public BaseStorageService(StorageConfig storageConfig)
+        public BaseStorageService(IOptions<StorageConfig> storageConfig)
         {
-            _storageConfig = storageConfig;
+            _storageConfig = storageConfig.Value;
             _defaultFolder = this.GetDefaultFolder();
         }
 
-        protected virtual string GetPath(StorageFileType type, string name, object databaseId)
+        protected virtual string GetPath(StorageFileType type, string name, object folderId)
         {
             //Xử lý chống truy cập trái phép
             string fileName = string.IsNullOrEmpty(name) ? "" : Path.GetFileName(name);
@@ -46,9 +47,9 @@ namespace TT.BaseProject.Storage
                 default:
                     /*
                     * Mặc định thư mục lưu file là {typeName}/{fileName}
-                    * Với file lưu theo dữ liệu là {databaseId}/{typeName}/{fileName}
+                    * Với file lưu theo db là {folderId}/{typeName}/{fileName}
                     */
-                    path = Path.Combine(this.GetStorePath(databaseId), type.ToString(), fileName);
+                    path = Path.Combine(this.GetStorePath(folderId), type.ToString(), fileName);
                     break;
             }
 
@@ -60,12 +61,12 @@ namespace TT.BaseProject.Storage
             return Path.Combine(this.GetRootPath(), "temp", fileName);
         }
 
-        protected virtual string GetStorePath(object databaseId)
+        protected virtual string GetStorePath(object folderId)
         {
-            string subPath = "";
-            if (databaseId != null)
+            string subPath;
+            if (folderId != null)
             {
-                subPath = Path.Combine("Database", databaseId.ToString());
+                subPath = Path.Combine("Database", folderId.ToString());
             }
             else
             {
@@ -84,16 +85,16 @@ namespace TT.BaseProject.Storage
             throw new NotImplementedException();
         }
 
-        public async Task<string> GetStringAsync(StorageFileType type, string name = null, object databaseId = null)
+        public async Task<string> GetStringAsync(StorageFileType type, string name = null, object folderId = null)
         {
-            string content = await this.GetFileStringAsync(type, name, databaseId);
+            string content = await this.GetFileStringAsync(type, name, folderId);
             return content;
         }
 
-        public virtual async Task<string> GetFileStringAsync(StorageFileType type, string name = null, object databaseId = null)
+        public virtual async Task<string> GetFileStringAsync(StorageFileType type, string name = null, object folderId = null)
         {
             string content = "";
-            using (var stream = await this.GetAsync(type, name, databaseId))
+            using (var stream = await this.GetAsync(type, name, folderId))
             {
                 StreamReader reader = new StreamReader(stream);
                 content = await reader.ReadToEndAsync();
@@ -102,7 +103,7 @@ namespace TT.BaseProject.Storage
             return content;
         }
 
-        public virtual async Task<MemoryStream> GetAsync(StorageFileType type, string name = null, object databaseId = null)
+        public virtual async Task<MemoryStream> GetAsync(StorageFileType type, string name = null, object folderId = null)
         {
             throw new NotImplementedException();
         }

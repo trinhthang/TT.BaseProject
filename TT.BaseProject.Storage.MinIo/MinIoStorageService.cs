@@ -2,6 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Text;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Storage.Enums;
@@ -16,7 +17,7 @@ namespace TT.BaseProject.Storage.MinIo
 
         public MinIoStorageService(
             ILogger<MinIoStorageService> log,
-            StorageConfig storageConfig) : base(storageConfig)
+            IOptions<StorageConfig> storageConfig) : base(storageConfig)
         {
             _log = log;
 
@@ -37,9 +38,9 @@ namespace TT.BaseProject.Storage.MinIo
             return new AmazonS3Client(fileConfig.AccessKey, fileConfig.SecretKey, fileConfigStorage);
         }
 
-        protected override string GetPath(StorageFileType type, string name, object databaseId)
+        protected override string GetPath(StorageFileType type, string name, object folderId)
         {
-            var result = base.GetPath(type, name, databaseId);
+            var result = base.GetPath(type, name, folderId);
 
             if (type != StorageFileType.Temp && type != StorageFileType.Attachment && type != StorageFileType.Upload)
             {
@@ -69,12 +70,12 @@ namespace TT.BaseProject.Storage.MinIo
             return _storageConfig.MinIO.Real.BucketName;
         }
 
-        public async Task CopyTempToRealAsync(string tempName, StorageFileType toType, string toName, object databaseId)
+        public async Task CopyTempToRealAsync(string tempName, StorageFileType toType, string toName, object folderId)
         {
             if (_storageConfig.MinIO.Real.ServiceURL == _storageConfig.MinIO.Temp.ServiceURL)
             {
                 var tempKey = GetPath(StorageFileType.Temp, tempName, null);
-                var desKey = GetPath(toType, toName, databaseId);
+                var desKey = GetPath(toType, toName, folderId);
                 string tempBucket = this.GetBucketName(StorageFileType.Temp),
                         desBucket = this.GetBucketName(toType);
 
@@ -86,17 +87,17 @@ namespace TT.BaseProject.Storage.MinIo
             {
                 using (var file = await this.Get(StorageFileType.Temp, name: tempName))
                 {
-                    await this.SaveAsync(toType, toName, file, databaseId: databaseId);
+                    await this.SaveAsync(toType, toName, file, folderId: folderId);
                 }
             }
         }
 
-        public async Task DeleteAsync(StorageFileType type, string name, object databaseId = null)
+        public async Task DeleteAsync(StorageFileType type, string name, object folderId = null)
         {
             var requestParam = new DeleteObjectRequest()
             {
                 BucketName = this.GetBucketName(type),
-                Key = GetPath(type, name, databaseId)
+                Key = GetPath(type, name, folderId)
             };
 
             _log.LogInformation($"S3StorageService DeleteAsync Bucket {requestParam.BucketName}, path {requestParam.Key}");
@@ -157,12 +158,12 @@ namespace TT.BaseProject.Storage.MinIo
             return memStream;
         }
 
-        public virtual async Task SaveAsync(StorageFileType type, string name, Stream content, object databaseId = null, string contentType = "text/plain")
+        public virtual async Task SaveAsync(StorageFileType type, string name, Stream content, object folderId = null, string contentType = "text/plain")
         {
             var requestParam = new PutObjectRequest()
             {
                 BucketName = this.GetBucketName(type),
-                Key = GetPath(type, name, databaseId),
+                Key = GetPath(type, name, folderId),
                 InputStream = content,
                 ContentType = contentType
             };
@@ -179,13 +180,13 @@ namespace TT.BaseProject.Storage.MinIo
             }
         }
 
-        public async Task SaveAsync(StorageFileType type, string name, string content, object databaseId = null)
+        public async Task SaveAsync(StorageFileType type, string name, string content, object folderId = null)
         {
             using (Stream stream = new MemoryStream())
             {
                 byte[] byteData = UTF8Encoding.UTF8.GetBytes(content);
                 stream.Write(byteData, 0, byteData.Length);
-                await this.SaveAsync(type, name, stream, databaseId);
+                await this.SaveAsync(type, name, stream, folderId);
             }
         }
         public async Task<List<string>> GetFileNamesAsync(StorageFileType type, string subFolder = null)
@@ -233,9 +234,9 @@ namespace TT.BaseProject.Storage.MinIo
             return folder;
         }
 
-        public async Task<bool> ExistAsync(StorageFileType type, string name = null, object databaseId = null)
+        public async Task<bool> ExistAsync(StorageFileType type, string name = null, object folderId = null)
         {
-            var file = await this.GetAsync(type, name, databaseId);
+            var file = await this.GetAsync(type, name, folderId);
             if (file != null && file.Length > 0)
             {
                 return true;
@@ -244,9 +245,9 @@ namespace TT.BaseProject.Storage.MinIo
             return false;
         }
 
-        public override async Task<MemoryStream> GetAsync(StorageFileType type, string name = null, object databaseId = null)
+        public override async Task<MemoryStream> GetAsync(StorageFileType type, string name = null, object folderId = null)
         {
-            var path = this.GetPath(type, name, databaseId);
+            var path = this.GetPath(type, name, folderId);
             var requestParam = new GetObjectRequest()
             {
                 BucketName = this.GetBucketName(type),

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,7 @@ namespace TT.BaseProject.Storage.FileSystem
     {
         private const string FILE_CUSTOM_PATH = "FILE_CUSTOM_PATH";
 
-        public FileStorageService(
-            StorageConfig storageConfig) : base(storageConfig)
+        public FileStorageService(IOptions<StorageConfig> storageConfig) : base(storageConfig)
         {
         }
 
@@ -25,12 +25,12 @@ namespace TT.BaseProject.Storage.FileSystem
             return rootPath;
         }
 
-        public async Task CopyTempToRealAsync(string tempName, StorageFileType toType, string toName, object databaseId)
+        public async Task CopyTempToRealAsync(string tempName, StorageFileType toType, string toName, object folderId)
         {
             var tempPath = this.GetPath(StorageFileType.Temp, tempName, null);
             if (System.IO.File.Exists(tempPath))
             {
-                var toPath = this.GetPath(toType, toName, databaseId);
+                var toPath = this.GetPath(toType, toName, folderId);
 
                 this.CreateDirectoryIfNotExist(toPath);
 
@@ -40,11 +40,11 @@ namespace TT.BaseProject.Storage.FileSystem
             }
         }
 
-        public async Task DeleteAsync(StorageFileType type, string name, object databaseId = null)
+        public async Task DeleteAsync(StorageFileType type, string name, object folderId = null)
         {
-            if (databaseId == null)
+            if (folderId == null)
             {
-                var path = this.GetPath(type, name, databaseId);
+                var path = this.GetPath(type, name, folderId);
 
                 if (System.IO.File.Exists(path))
                 {
@@ -53,9 +53,9 @@ namespace TT.BaseProject.Storage.FileSystem
             }
         }
 
-        public override async Task<MemoryStream> GetAsync(StorageFileType type, string name = null, object databaseId = null)
+        public override async Task<MemoryStream> GetAsync(StorageFileType type, string name = null, object folderId = null)
         {
-            string path = this.GetPath(type, name, databaseId);
+            string path = this.GetPath(type, name, folderId);
 
             if (System.IO.File.Exists(path))
             {
@@ -78,9 +78,9 @@ namespace TT.BaseProject.Storage.FileSystem
             return result;
         }
 
-        public async Task SaveAsync(StorageFileType type, string name, Stream content, object databaseId = null, string contentType = "text/plain")
+        public async Task SaveAsync(StorageFileType type, string name, Stream content, object folderId = null, string contentType = "text/plain")
         {
-            var path = this.GetPath(type, name, databaseId);
+            var path = this.GetPath(type, name, folderId);
 
             this.CreateDirectoryIfNotExist(path);
 
@@ -91,9 +91,9 @@ namespace TT.BaseProject.Storage.FileSystem
             }
         }
 
-        public async Task SaveAsync(StorageFileType type, string name, string content, object databaseId = null)
+        public async Task SaveAsync(StorageFileType type, string name, string content, object folderId = null)
         {
-            var path = this.GetPath(type, name, databaseId);
+            var path = this.GetPath(type, name, folderId);
 
             this.CreateDirectoryIfNotExist(path);
 
@@ -143,9 +143,9 @@ namespace TT.BaseProject.Storage.FileSystem
             return result;
         }
 
-        public async Task<bool> ExistAsync(StorageFileType type, string name = null, object databaseId = null)
+        public async Task<bool> ExistAsync(StorageFileType type, string name = null, object folderId = null)
         {
-            string path = this.GetPath(type, name, databaseId);
+            string path = this.GetPath(type, name, folderId);
 
             if (System.IO.File.Exists(path))
             {

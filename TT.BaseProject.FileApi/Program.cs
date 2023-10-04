@@ -3,6 +3,9 @@ using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
 using TT.BaseProject.HostBase.Service;
 using TT.BaseProject.Library.Service;
+using TT.BaseProject.Storage;
+using TT.BaseProject.Storage.FileSystem;
+using TT.BaseProject.Storage.MinIo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +21,9 @@ builder.Services.AddSingleton<ISerializerService, SerializerService>();
 // Context
 builder.Services.AddScoped<IContextService, ContextService>();
 
-// Service ...
+// TODO Service ...
+builder.Services.AddSingleton<IStorageService, FileStorageService>();
+//builder.Services.AddSingleton<IStorageService, MinIoStorageService>();
 
 
 builder.Services.AddControllers();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
 using TT.BaseProject.Storage;
@@ -9,18 +10,18 @@ namespace TT.BaseProject.FileApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //TODO [Authorize]
     public class FileController : ControllerBase
     {
         private readonly IStorageService _storageService;
         private readonly IContextService _contextService;
         private readonly StorageConfig _storageConfig;
 
-        public FileController(IStorageService storageService, IContextService contextService, StorageConfig storageConfig)
+        public FileController(IStorageService storageService, IContextService contextService, IOptions<StorageConfig> storageConfig)
         {
-            _storageConfig = storageConfig;
+            _storageService = storageService;
             _contextService = contextService;
-            _storageConfig = storageConfig;
+            _storageConfig = storageConfig.Value;
         }
 
         [HttpGet]
@@ -68,7 +69,7 @@ namespace TT.BaseProject.FileApi.Controllers
                 using (var stream = file.OpenReadStream())
                 {
                     //upload temp only
-                    await _storageService.SaveAsync(StorageFileType.Temp, fileName, stream, context.DatabaseId, contentType: fileType);
+                    await _storageService.SaveAsync(StorageFileType.Temp, fileName, stream, context.UserId, contentType: fileType);
                 }
 
                 return Ok(fileName);
@@ -103,7 +104,7 @@ namespace TT.BaseProject.FileApi.Controllers
                     using (var stream = item.OpenReadStream())
                     {
                         //upload temp only
-                        await _storageService.SaveAsync(StorageFileType.Temp, fileName, stream, context.DatabaseId, contentType: fileType);
+                        await _storageService.SaveAsync(StorageFileType.Temp, fileName, stream, context.UserId, contentType: fileType);
                     }
 
                     temps.Add(new { name = fileName, originName = item.FileName });
