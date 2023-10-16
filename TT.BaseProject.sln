@@ -21,13 +21,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Application.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Library", "TT.BaseProject.Library\TT.BaseProject.Library.csproj", "{BA229D6B-8BAC-467B-B79C-DDE93B92170C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.BaseProject.FileApi", "TT.BaseProject.FileApi\TT.BaseProject.FileApi.csproj", "{FAF5AFC0-737A-4A7B-93A1-4D1401852C2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.FileApi", "TT.BaseProject.FileApi\TT.BaseProject.FileApi.csproj", "{FAF5AFC0-737A-4A7B-93A1-4D1401852C2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.BaseProject.Storage", "TT.BaseProject.Storage\TT.BaseProject.Storage.csproj", "{66437243-E71B-47EF-AE3E-F6302C71F56D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Storage", "TT.BaseProject.Storage\TT.BaseProject.Storage.csproj", "{66437243-E71B-47EF-AE3E-F6302C71F56D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.BaseProject.Storage.FileSystem", "TT.BaseProject.Storage.FileSystem\TT.BaseProject.Storage.FileSystem.csproj", "{B109C085-2CA8-4F05-BFEF-11CA1FCD8812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Storage.FileSystem", "TT.BaseProject.Storage.FileSystem\TT.BaseProject.Storage.FileSystem.csproj", "{B109C085-2CA8-4F05-BFEF-11CA1FCD8812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.BaseProject.Storage.MinIo", "TT.BaseProject.Storage.MinIo\TT.BaseProject.Storage.MinIo.csproj", "{99B2B30E-7A13-4930-BA5C-9948E6E130D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Storage.MinIo", "TT.BaseProject.Storage.MinIo\TT.BaseProject.Storage.MinIo.csproj", "{99B2B30E-7A13-4930-BA5C-9948E6E130D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{49263F6C-117D-44D2-86EF-E8A6124BB1C6}"
+	ProjectSection(SolutionItems) = preProject
+		Cache.json = Cache.json
+		Connection.json = Connection.json
+		Storage.json = Storage.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

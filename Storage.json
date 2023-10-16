@@ -1,0 +1,24 @@
+{
+  "UploadAllowExtensions": "ppt,pptx,doc,docx,xls,xlsx,pdf,txt,zip,rar,png,jpg,jpeg,gif,bmp,tiff,svg,xml,xmind,inv,ods,odt,rtf,heic",
+  "UploadMaxSizeMB": 5,
+  "Type": "File",
+  "File": {
+    "Real": "",
+    "Temp": "Temp"
+  },
+  "MinIO": {
+    "Real": {
+      "ServiceURL": "",
+      "AccessKey": "",
+      "SecretKey": "",
+      "BucketName": "BaseProject"
+    },
+    "Temp": {
+      "ServiceURL": "",
+      "AccessKey": "",
+      "SecretKey": "",
+      "BucketName": "temp",
+      "Format": "BaseProject/{0}"
+    }
+  }
+}

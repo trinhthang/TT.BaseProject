@@ -1,0 +1,5 @@
+{
+  "Master": "Server=127.0.0.1;Database=test;Uid=admin;Pwd=12345678@Abc",
+  "Auth": "Server=127.0.0.1;Database=test;Uid=admin;Pwd=12345678@Abc",
+  "Business": "Server=127.0.0.1;Database=test;Uid=admin;Pwd=12345678@Abc"
+}

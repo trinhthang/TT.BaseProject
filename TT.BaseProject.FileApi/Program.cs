@@ -1,6 +1,7 @@
 using TT.BaseProject.Application.Contracts.Common;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
+using TT.BaseProject.HostBase;
 using TT.BaseProject.HostBase.Service;
 using TT.BaseProject.Library.Service;
 using TT.BaseProject.Storage;
@@ -21,7 +22,10 @@ builder.Services.AddSingleton<ISerializerService, SerializerService>();
 // Context
 builder.Services.AddScoped<IContextService, ContextService>();
 
-// TODO Service ...
+// TODO Service
+HostBaseFactory.InjectStorageService(builder.Services, builder.Configuration);
+
+
 builder.Services.AddSingleton<IStorageService, FileStorageService>();
 //builder.Services.AddSingleton<IStorageService, MinIoStorageService>();
 
