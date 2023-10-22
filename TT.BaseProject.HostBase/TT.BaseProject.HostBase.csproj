@@ -13,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\TT.BaseProject.Application\TT.BaseProject.Application.csproj" />
     <ProjectReference Include="..\TT.BaseProject.Domain\TT.BaseProject.Domain.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Storage.FileSystem\TT.BaseProject.Storage.FileSystem.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Storage.MinIo\TT.BaseProject.Storage.MinIo.csproj" />
   </ItemGroup>
 
 </Project>

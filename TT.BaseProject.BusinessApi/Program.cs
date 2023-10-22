@@ -5,6 +5,7 @@ using TT.BaseProject.Domain.Business;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
 using TT.BaseProject.Domain.MySql.Business;
+using TT.BaseProject.HostBase;
 using TT.BaseProject.HostBase.Filter;
 using TT.BaseProject.HostBase.Service;
 using TT.BaseProject.Library.Service;
@@ -13,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Config
 builder.Services.Configure<ConnectionConfig>
-        (builder.Configuration.GetSection("ConnectionStrings"));
+        (builder.Configuration.GetSection("Connections"));
+builder.Services.Configure<StorageConfig>
+        (builder.Configuration.GetSection("Storage"));
 
 // Add services to the container.
 // Common service
@@ -23,11 +26,16 @@ builder.Services.AddSingleton<ISerializerService, SerializerService>();
 // Context
 builder.Services.AddScoped<IContextService, ContextService>();
 
-// Service ...
+// Inject Service
 builder.Services.AddScoped<IExampleService, ExampleService>();
 
-// Repo ...
+// Inject Repo
 builder.Services.AddScoped<IExampleRepo, MySqlExampleRepo>();
+
+// Inject StorageService
+HostBaseFactory.InjectStorageService(builder.Services, builder.Configuration);
+// Inject CacheService
+HostBaseFactory.InjectCacheService(builder.Services, builder.Configuration);
 
 
 // Bọc bắt exception

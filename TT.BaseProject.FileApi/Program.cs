@@ -11,6 +11,8 @@ using TT.BaseProject.Storage.MinIo;
 var builder = WebApplication.CreateBuilder(args);
 
 // Config
+builder.Services.Configure<ConnectionConfig>
+        (builder.Configuration.GetSection("Connections"));
 builder.Services.Configure<StorageConfig>
         (builder.Configuration.GetSection("Storage"));
 
@@ -22,12 +24,10 @@ builder.Services.AddSingleton<ISerializerService, SerializerService>();
 // Context
 builder.Services.AddScoped<IContextService, ContextService>();
 
-// TODO Service
+// Inject StorageService
 HostBaseFactory.InjectStorageService(builder.Services, builder.Configuration);
-
-
-builder.Services.AddSingleton<IStorageService, FileStorageService>();
-//builder.Services.AddSingleton<IStorageService, MinIoStorageService>();
+// Inject CacheService
+HostBaseFactory.InjectCacheService(builder.Services, builder.Configuration);
 
 
 builder.Services.AddControllers();
