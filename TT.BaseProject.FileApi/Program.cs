@@ -15,6 +15,8 @@ builder.Services.Configure<ConnectionConfig>
         (builder.Configuration.GetSection("Connections"));
 builder.Services.Configure<StorageConfig>
         (builder.Configuration.GetSection("Storage"));
+builder.Services.Configure<StorageConfig>
+        (builder.Configuration.GetSection("Cache"));
 
 // Add services to the container.
 // Common service

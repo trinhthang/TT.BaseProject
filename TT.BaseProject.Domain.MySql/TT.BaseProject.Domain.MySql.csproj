@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TT.BaseProject.Application.Contracts\TT.BaseProject.Application.Contracts.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Cache\TT.BaseProject.Cache.csproj" />
     <ProjectReference Include="..\TT.BaseProject.Domain\TT.BaseProject.Domain.csproj" />
     <ProjectReference Include="..\TT.BaseProject.MySql\TT.BaseProject.MySql.csproj" />
   </ItemGroup>

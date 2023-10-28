@@ -4,6 +4,7 @@ using Amazon.S3.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text;
+using TT.BaseProject.Cache;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Storage.Enums;
 
@@ -17,7 +18,8 @@ namespace TT.BaseProject.Storage.MinIo
 
         public MinIoStorageService(
             ILogger<MinIoStorageService> log,
-            IOptions<StorageConfig> storageConfig) : base(storageConfig)
+            IOptions<StorageConfig> storageConfig,
+            ICacheService cacheService) : base(storageConfig, cacheService)
         {
             _log = log;
 

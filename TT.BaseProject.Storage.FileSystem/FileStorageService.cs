@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TT.BaseProject.Cache;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Storage.Enums;
 
@@ -13,7 +14,7 @@ namespace TT.BaseProject.Storage.FileSystem
     {
         private const string FILE_CUSTOM_PATH = "FILE_CUSTOM_PATH";
 
-        public FileStorageService(IOptions<StorageConfig> storageConfig) : base(storageConfig)
+        public FileStorageService(IOptions<StorageConfig> storageConfig, ICacheService cacheService) : base(storageConfig, cacheService)
         {
         }
 

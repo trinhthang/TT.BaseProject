@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.13" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TT.BaseProject.Application\TT.BaseProject.Application.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Cache.InvalidMemory\TT.BaseProject.Cache.InvalidMemory.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Cache.Redis\TT.BaseProject.Cache.Redis.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Cache\TT.BaseProject.Cache.csproj" />
     <ProjectReference Include="..\TT.BaseProject.Domain\TT.BaseProject.Domain.csproj" />
+    <ProjectReference Include="..\TT.BaseProject.Extension\TT.BaseProject.Extension.csproj" />
     <ProjectReference Include="..\TT.BaseProject.Storage.FileSystem\TT.BaseProject.Storage.FileSystem.csproj" />
     <ProjectReference Include="..\TT.BaseProject.Storage.MinIo\TT.BaseProject.Storage.MinIo.csproj" />
   </ItemGroup>

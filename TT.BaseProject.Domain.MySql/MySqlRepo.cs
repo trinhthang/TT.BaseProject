@@ -6,6 +6,9 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using TT.BaseProject.Application.Contracts.Common;
+using TT.BaseProject.Cache;
+using TT.BaseProject.Cache.Constants;
+using TT.BaseProject.Cache.Models;
 using TT.BaseProject.Domain.Attributes;
 using TT.BaseProject.Domain.Base;
 using TT.BaseProject.Domain.Constant;
@@ -21,7 +24,7 @@ namespace TT.BaseProject.Domain.MySql
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ITypeService _typeService;
         protected readonly ISerializerService SerializerService;
-        //protected readonly ICacheService _cacheService;
+        protected readonly ICacheService _cacheService;
 
         protected readonly string _connectionString;
         protected IDatabaseProvider _databaseProvider;
@@ -151,21 +154,20 @@ namespace TT.BaseProject.Domain.MySql
 
         protected virtual string GetDeleteQuery(Type type)
         {
-            //var cacheParam = new CacheParam()
-            //{
-            //    Name = CacheItemName.SqlDelete,
-            //    Custom = type.FullName
-            //};
+            var cacheParam = new CacheParam()
+            {
+                Name = CacheItemName.SqlDelete,
+                Custom = type.FullName
+            };
 
-            //var query = _cacheService.Get<string>(cacheParam);
-            var query = string.Empty;
+            var query = _cacheService.Get<string>(cacheParam);
 
             if (string.IsNullOrEmpty(query))
             {
                 var key = _typeService.GetKeyField(type);
                 var table = this.GetTableName(type);
                 query = $"DELETE FROM {table} WHERE {key.Name} = @{key.Name}";
-                //_cacheService.Set(cacheParam, query);
+                _cacheService.Set(cacheParam, query);
             }
 
             return query;
@@ -752,14 +754,13 @@ namespace TT.BaseProject.Domain.MySql
 
         protected virtual string GetInsertQuery(Type type, object entity)
         {
-            //var cacheParam = new CacheParam()
-            //{
-            //    Name = CacheItemName.SqlInsert,
-            //    Custom = type.FullName
-            //};
+            var cacheParam = new CacheParam()
+            {
+                Name = CacheItemName.SqlInsert,
+                Custom = type.FullName
+            };
 
-            //var query = _cacheService.Get<string>(cacheParam);
-            var query = string.Empty;
+            var query = _cacheService.Get<string>(cacheParam);
             if (string.IsNullOrEmpty(query))
             {
 
@@ -772,7 +773,7 @@ namespace TT.BaseProject.Domain.MySql
                 {
                     query += "select last_insert_id();";
                 }
-                //_cacheService.Set(cacheParam, query);
+                _cacheService.Set(cacheParam, query);
             }
             return query;
         }
@@ -887,14 +888,13 @@ namespace TT.BaseProject.Domain.MySql
                 fields = string.Empty;
             }
 
-            //var cacheParam = new CacheParam()
-            //{
-            //    Name = CacheItemName.SqlUpdate,
-            //    Custom = $"{type.FullName}_{fields}"
-            //};
+            var cacheParam = new CacheParam()
+            {
+                Name = CacheItemName.SqlUpdate,
+                Custom = $"{type.FullName}_{fields}"
+            };
 
-            //var query = _cacheService.Get<string>(cacheParam);
-            var query = string.Empty;
+            var query = _cacheService.Get<string>(cacheParam);
             if (string.IsNullOrEmpty(query))
             {
 
@@ -926,7 +926,7 @@ namespace TT.BaseProject.Domain.MySql
 
                 query = $"UPDATE {table} SET {string.Join(", ", updateFields.Select(n => $"`{n}`=@{n}"))} WHERE `{key.Name}`=@{key.Name};";
 
-                //_cacheService.Set(cacheParam, query);
+                _cacheService.Set(cacheParam, query);
             }
             return query;
         }

@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TT.BaseProject.Cache;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Constant;
 using TT.BaseProject.Storage.Enums;
@@ -13,12 +9,13 @@ namespace TT.BaseProject.Storage
     public class BaseStorageService
     {
         protected readonly StorageConfig _storageConfig;
-        //protected readonly ICacheService _cacheService;
+        protected readonly ICacheService _cacheService;
         private readonly string _defaultFolder;
 
-        public BaseStorageService(IOptions<StorageConfig> storageConfig)
+        public BaseStorageService(IOptions<StorageConfig> storageConfig, ICacheService cacheService)
         {
             _storageConfig = storageConfig.Value;
+            _cacheService = cacheService;
             _defaultFolder = this.GetDefaultFolder();
         }
 
