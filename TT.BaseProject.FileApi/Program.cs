@@ -1,4 +1,5 @@
 using TT.BaseProject.Application.Contracts.Common;
+using TT.BaseProject.Cache.Models;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
 using TT.BaseProject.HostBase;
@@ -15,7 +16,7 @@ builder.Services.Configure<ConnectionConfig>
         (builder.Configuration.GetSection("Connections"));
 builder.Services.Configure<StorageConfig>
         (builder.Configuration.GetSection("Storage"));
-builder.Services.Configure<StorageConfig>
+builder.Services.Configure<CacheConfig>
         (builder.Configuration.GetSection("Cache"));
 
 // Add services to the container.

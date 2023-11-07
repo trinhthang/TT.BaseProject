@@ -23,7 +23,7 @@ namespace TT.BaseProject.Domain.MySql
         #region Declaration
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ITypeService _typeService;
-        protected readonly ISerializerService SerializerService;
+        protected readonly ISerializerService _serializerService;
         protected readonly ICacheService _cacheService;
 
         protected readonly string _connectionString;
@@ -39,7 +39,8 @@ namespace TT.BaseProject.Domain.MySql
             _connectionString = connection;
             _serviceProvider = serviceProvider;
             _typeService = serviceProvider.GetRequiredService<ITypeService>();
-            SerializerService = serviceProvider.GetRequiredService<ISerializerService>();
+            _serializerService = serviceProvider.GetRequiredService<ISerializerService>();
+            _cacheService = serviceProvider.GetRequiredService<ICacheService>();
         }
         #endregion
 
@@ -428,7 +429,7 @@ namespace TT.BaseProject.Domain.MySql
 
                 if (skip == 0 && !string.IsNullOrEmpty(selectedItem))
                 {
-                    var selectedParam = SerializerService.DeserializeObject<Dictionary<string, object>>(selectedItem);
+                    var selectedParam = _serializerService.DeserializeObject<Dictionary<string, object>>(selectedItem);
                     var selectedObject = selectedParam.FirstOrDefault();
                     var value = selectedObject.Value;
 
@@ -1071,7 +1072,7 @@ namespace TT.BaseProject.Domain.MySql
                 return "";
             }
 
-            var items = SerializerService.DeserializeObject<List<FilterItem>>(filter);
+            var items = _serializerService.DeserializeObject<List<FilterItem>>(filter);
             var sb = new StringBuilder();
             foreach (var item in items)
             {
