@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
+using TT.BaseProject.HostBase.Controller;
 using TT.BaseProject.Storage;
 using TT.BaseProject.Storage.Enums;
 
@@ -11,7 +12,7 @@ namespace TT.BaseProject.FileApi.Controllers
     [Route("[controller]")]
     [ApiController]
     //TODO [Authorize]
-    public class FileController : ControllerBase
+    public class FileController : BaseApi
     {
         private readonly IStorageService _storageService;
         private readonly IContextService _contextService;
@@ -19,6 +20,8 @@ namespace TT.BaseProject.FileApi.Controllers
 
         public FileController(IStorageService storageService, IContextService contextService, IOptions<StorageConfig> storageConfig)
         {
+            this.ControllerName = "FileAPI";
+
             _storageService = storageService;
             _contextService = contextService;
             _storageConfig = storageConfig.Value;

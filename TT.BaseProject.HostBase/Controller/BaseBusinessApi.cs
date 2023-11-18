@@ -21,6 +21,8 @@ namespace TT.BaseProject.HostBase.Controller
 
         public BaseBusinessApi(TService service, IServiceProvider serviceProvider)
         {
+            this.ControllerName = "BusinessAPI";
+
             _service = service;
             _contextService = serviceProvider.GetRequiredService<IContextService>();
             _serializerService = serviceProvider.GetRequiredService<ISerializerService>();

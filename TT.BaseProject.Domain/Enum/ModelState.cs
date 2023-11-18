@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace TT.BaseProject.Domain.Enum
 {
-    public enum Permission
+    public enum ModelState
     {
-        View = 1,
+        None = 0,
 
-        Add = 2,
+        Insert = 1,
 
-        Edit = 4,
+        Update = 2,
 
-        Delete = 8
+        Delete = 3,
+
+        Empty = 4,
+
+        Duplicate = 5,
+
+        OverWrite = 6
     }
 }

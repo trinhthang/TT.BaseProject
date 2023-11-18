@@ -12,6 +12,15 @@ namespace TT.BaseProject.HostBase.Controller
     [Route("[controller]")]
     public abstract class BaseApi : ControllerBase
     {
+        public virtual string ControllerName { get; set; } = "Base";
+
+        [AllowAnonymous]
+        [HttpGet("health")]
+        public IActionResult Get()
+        {
+            return Ok(ControllerName + " live!");
+        }
+
         [AllowAnonymous]
         [HttpGet("now")]
         public IActionResult GetNow()

@@ -12,14 +12,10 @@ namespace TT.BaseProject.AuthApi.Controllers
 
         public AuthController(ILogger<AuthController> logger, IAuthenticateService service)
         {
+            this.ControllerName = "AuthAPI";
+
             _logger = logger;
             _service = service;
-        }
-
-        [HttpGet("health")]
-        public IActionResult Get()
-        {
-            return Ok("Auth");
         }
 
         [HttpPost("register")]
