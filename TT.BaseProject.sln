@@ -44,7 +44,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Cache.Invali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.Extension", "TT.BaseProject.Extension\TT.BaseProject.Extension.csproj", "{A02650F7-7DA3-4B9C-BFCC-A6B921B3E577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TT.BaseProject.AuthApi", "TT.BaseProject.AuthApi\TT.BaseProject.AuthApi.csproj", "{9D85D87D-AC61-48A4-9C02-6B44A8241888}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TT.BaseProject.AuthApi", "TT.BaseProject.AuthApi\TT.BaseProject.AuthApi.csproj", "{9D85D87D-AC61-48A4-9C02-6B44A8241888}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{E7ACE649-01FD-4D23-AC34-E0F6160FF365}"
+	ProjectSection(SolutionItems) = preProject
+		create_database.sql = create_database.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
