@@ -91,8 +91,8 @@ namespace TT.BaseProject.Application.Business
             var user = users.FirstOrDefault();
             //Compare password login with passwordHash
             if (string.IsNullOrEmpty(loginModel.UserName)
-                && string.IsNullOrEmpty(loginModel.Password)
-                && !ValidatePassword(loginModel.Password, user.password, user.salt))
+                || string.IsNullOrEmpty(loginModel.Password)
+                || !ValidatePassword(loginModel.Password, user.password, user.salt))
             {
                 return new AuthenticateResponse(success: false, AuthenResponseCode.WRONGUSERORPASSWORD);
             }
