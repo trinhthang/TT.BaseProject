@@ -16,6 +16,8 @@ namespace TT.BaseProject.Domain.Business
 
         public string user_name { get; set; }
 
+        public string full_name { get; set; }
+
         public string salt { get; set; }
 
         public string password { get; set; }

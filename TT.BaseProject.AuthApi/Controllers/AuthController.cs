@@ -31,5 +31,19 @@ namespace TT.BaseProject.AuthApi.Controllers
             var res = await _service.Login(param);
             return Ok(res);
         }
+
+        [HttpPost("google/login")]
+        public virtual async Task<IActionResult> LoginWithGoogle([FromBody] AuthenticateRequest param)
+        {
+            var res = await _service.Login(param);
+            return Ok(res);
+        }
+
+        [HttpPost("facebook/login")]
+        public virtual async Task<IActionResult> LoginWithFacebook([FromBody] AuthenticateRequest param)
+        {
+            var res = await _service.Login(param);
+            return Ok(res);
+        }
     }
 }
