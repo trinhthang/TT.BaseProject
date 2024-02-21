@@ -9,11 +9,27 @@ using TT.BaseProject.Domain.Enum;
 
 namespace TT.BaseProject.Domain.Business
 {
+    // <summary>
+    /// Khách hàng
+    /// </summary>
     [Table("dic_customer")]
     public class CustomerEntity : IRecordCreate, IRecordModify
     {
         [Key]
-        public Guid company_id { get; set; }
+        public Guid customer_id { get; set; }
+
+        public string customer_name { get; set; }
+
+        public string identity_number { get; set; }
+
+        public string phone_number { get; set; }
+
+        public string description { get; set; }
+
+        /// <summary>
+        /// ID người dùng tạo
+        /// </summary>
+        public Guid user_id { get; set; }
 
         public DateTime? created_date { get; set; }
 
