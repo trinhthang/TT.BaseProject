@@ -30,7 +30,7 @@ namespace TT.BaseProject.HostBase.Controller
 
         #region business
 
-        [HttpPost("list")]
+        [HttpPost("paging")]
         public virtual async Task<IActionResult> GetPaging([FromBody] PagingParameter param)
         {
             switch (param.type)

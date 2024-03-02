@@ -8,14 +8,14 @@ namespace TT.BaseProject.Domain.Crud
 {
     public class PagingParameter
     {
+        public string Columns { get; set; }
+        public string Filter { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
         public string Sort { get; set; }
-        public string Filter { get; set; }
-        public string EmptyFilter { get; set; }
-        public string Columns { get; set; }
-        public string SelectedItem { get; set; }
         public PagingDataType type { get; set; }
+        public string? EmptyFilter { get; set; }
+        public string? SelectedItem { get; set; }
     }
 
     public class PagingSummaryParameter
