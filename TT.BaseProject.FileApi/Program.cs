@@ -1,3 +1,4 @@
+﻿using Microsoft.AspNetCore.Mvc;
 using TT.BaseProject.Application.Contracts.Common;
 using TT.BaseProject.Cache.Models;
 using TT.BaseProject.Domain.Config;
@@ -18,6 +19,15 @@ builder.Services.Configure<StorageConfig>
         (builder.Configuration.GetSection("Storage"));
 builder.Services.Configure<CacheConfig>
         (builder.Configuration.GetSection("Cache"));
+
+/**
+ * 
+ */
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    //Cho phép truyền thiếu model
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 // Add services to the container.
 // Common service
