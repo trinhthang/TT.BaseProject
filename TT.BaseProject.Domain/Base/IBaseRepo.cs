@@ -21,7 +21,7 @@ namespace TT.BaseProject.Domain.Base
         Task<List<T>> GetAsync<T>(IDbTransaction transaction, string field, object value, string op = "=");
         Task<List<T>> GetAsync<T>();
         Task<List<T>> GetAsync<T>(IDbConnection cnn);
-        Task<List<T>> GetAsync<T>(List<FilterItem> filters, string sort = null, int skip = 0, int? take = null, string emptyFilter = null);
+        Task<List<T>> GetAsync<T>(List<FilterItem> filters, string? sort = null, int skip = 0, int? take = null, string? emptyFilter = null);
 
         T GetById<T>(object id);
         Task<T> GetByIdAsync<T>(object id);

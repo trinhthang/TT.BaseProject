@@ -10,6 +10,7 @@ using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Context;
 using TT.BaseProject.Domain.MySql.Business;
 using TT.BaseProject.HostBase;
+using TT.BaseProject.HostBase.Filter;
 using TT.BaseProject.HostBase.Service;
 using TT.BaseProject.Library.Service;
 
@@ -51,7 +52,12 @@ builder.Services.AddScoped<IUserRepo, MySqlUserRepo>();
 // Inject CacheService
 HostBaseFactory.InjectCacheService(builder.Services, builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    // Add custom exception
+    options.Filters.Add<CustomExceptionFilter>();
+}).AddNewtonsoftJson();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -58,13 +58,11 @@ HostBaseFactory.InjectStorageService(builder.Services, builder.Configuration);
 // Inject CacheService
 HostBaseFactory.InjectCacheService(builder.Services, builder.Configuration);
 
-
-// Bọc bắt exception
 builder.Services.AddControllers(options =>
 {
     // Add custom exception
     options.Filters.Add<CustomExceptionFilter>();
-});
+}).AddNewtonsoftJson();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
