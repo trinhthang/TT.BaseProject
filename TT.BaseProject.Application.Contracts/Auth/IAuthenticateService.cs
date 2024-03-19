@@ -17,5 +17,9 @@ namespace TT.BaseProject.Application.Contracts.Auth
 
         Task<AuthenticateResponse> Login(AuthenticateRequest loginModel);
 
+        Task<AuthenticateResponse> LoginWithGoogle(SocialAuthenticateRequest loginModel);
+
+        Task<AuthenticateResponse> LoginWithFacebook(SocialAuthenticateRequest loginModel);
+
     }
 }

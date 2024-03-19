@@ -103,6 +103,18 @@ namespace TT.BaseProject.Application.Business
             return new AuthenticateResponse(success: true, string.Empty, user, token);
         }
 
+        public async Task<AuthenticateResponse> LoginWithGoogle(SocialAuthenticateRequest loginModel)
+        {
+
+            //return new AuthenticateResponse(success: true, string.Empty, user, token);
+            return new AuthenticateResponse(success: true, string.Empty);
+        }
+
+        public async Task<AuthenticateResponse> LoginWithFacebook(SocialAuthenticateRequest loginModel)
+        {
+            //return new AuthenticateResponse(success: true, string.Empty, user, token);
+            return new AuthenticateResponse(success: true, string.Empty);
+        }
 
         #region Private
 

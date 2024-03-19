@@ -29,7 +29,7 @@ builder.Services.Configure<CacheConfig>
  */
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
-    //Cho phép truyền thiếu model
+    //Cho phép truyền thiếu model khi vào api
     options.SuppressModelStateInvalidFilter = true;
 });
 

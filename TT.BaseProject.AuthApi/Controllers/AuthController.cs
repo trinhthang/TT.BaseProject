@@ -33,16 +33,16 @@ namespace TT.BaseProject.AuthApi.Controllers
         }
 
         [HttpPost("google/login")]
-        public virtual async Task<IActionResult> LoginWithGoogle([FromBody] AuthenticateRequest param)
+        public virtual async Task<IActionResult> LoginWithGoogle([FromBody] SocialAuthenticateRequest param)
         {
-            var res = await _service.Login(param);
+            var res = await _service.LoginWithGoogle(param);
             return Ok(res);
         }
 
         [HttpPost("facebook/login")]
-        public virtual async Task<IActionResult> LoginWithFacebook([FromBody] AuthenticateRequest param)
+        public virtual async Task<IActionResult> LoginWithFacebook([FromBody] SocialAuthenticateRequest param)
         {
-            var res = await _service.Login(param);
+            var res = await _service.LoginWithFacebook(param);
             return Ok(res);
         }
     }
