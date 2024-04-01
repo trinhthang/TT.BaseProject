@@ -103,6 +103,24 @@ namespace TT.BaseProject.Application.Business
             return new AuthenticateResponse(success: true, string.Empty, user, token);
         }
 
+        /// <summary>
+        /// Đăng xuất
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AuthenticateResponse> Logout()
+        {
+            return new AuthenticateResponse(success: true, string.Empty);
+        }
+
+        /// <summary>
+        /// Refresh lại token
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AuthenticateResponse> Refreshtoken()
+        {
+            return new AuthenticateResponse(success: true, string.Empty);
+        }
+
         public async Task<AuthenticateResponse> LoginWithGoogle(SocialAuthenticateRequest loginModel)
         {
 
