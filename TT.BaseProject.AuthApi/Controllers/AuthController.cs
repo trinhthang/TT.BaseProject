@@ -32,6 +32,20 @@ namespace TT.BaseProject.AuthApi.Controllers
             return Ok(res);
         }
 
+        [HttpPost("logout")]
+        public virtual async Task<IActionResult> Login()
+        {
+            var res = await _service.Logout();
+            return Ok(res);
+        }
+
+        [HttpPost("refreshtoken")]
+        public virtual async Task<IActionResult> RefreshToken()
+        {
+            var res = await _service.RefreshToken();
+            return Ok(res);
+        }
+
         [HttpPost("google/login")]
         public virtual async Task<IActionResult> LoginWithGoogle([FromBody] SocialAuthenticateRequest param)
         {

@@ -16,6 +16,10 @@ namespace TT.BaseProject.Application.Contracts.Auth
         Task<AuthenticateResponse> Register(AuthenticateRequest registerModel);
 
         Task<AuthenticateResponse> Login(AuthenticateRequest loginModel);
+        
+        Task<AuthenticateResponse> Logout();
+        
+        Task<AuthenticateResponse> RefreshToken();
 
         Task<AuthenticateResponse> LoginWithGoogle(SocialAuthenticateRequest loginModel);
 

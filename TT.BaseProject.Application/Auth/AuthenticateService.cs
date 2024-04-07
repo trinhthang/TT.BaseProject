@@ -114,6 +114,15 @@ namespace TT.BaseProject.Application.Business
         }
 
         /// <summary>
+        /// Refresh lại token
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AuthenticateResponse> Refreshtoken()
+        {
+            return new AuthenticateResponse(success: true, string.Empty);
+        }
+
+        /// <summary>
         /// Đăng nhập bằng Google
         /// </summary>
         /// <param name="authenModel"></param>
