@@ -24,6 +24,8 @@ namespace TT.BaseProject.Domain.Authen
 
         public string Username { get; set; }
 
+        public string FullName { get; set; }
+
         public string Token { get; set; }
 
         public AuthenticateResponse(bool success, string responseCode)
@@ -38,6 +40,7 @@ namespace TT.BaseProject.Domain.Authen
             ResponseCode = responseCode;
             Id = user.user_id;
             Username = user.user_name;
+            FullName = user.full_name;
             Token = token;
         }
     }

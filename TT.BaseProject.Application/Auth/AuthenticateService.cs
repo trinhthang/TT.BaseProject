@@ -10,6 +10,10 @@ using TT.BaseProject.Domain.Business;
 using TT.BaseProject.Domain.Config;
 using TT.BaseProject.Domain.Constant.Authen;
 using BCrypt.Net;
+using Google.Apis.Auth;
+using Google.Apis.Auth.OAuth2;
+using System.Net.WebSockets;
+using TT.BaseProject.Domain.Enum;
 
 namespace TT.BaseProject.Application.Business
 {
@@ -97,20 +101,72 @@ namespace TT.BaseProject.Application.Business
                 return new AuthenticateResponse(success: false, AuthenResponseCode.WRONGUSERORPASSWORD);
             }
 
+            //Người dùng chưa được kích hoạt
+            if (user.status != UserStatus.Active)
+            {
+                return new AuthenticateResponse(success: false, user.status == UserStatus.Wait ? AuthenResponseCode.USER_WAITACTIVE : AuthenResponseCode.USER_INACTIVE);
+            }
+
             // authentication successful so generate jwt token
             var token = GenerateJwtToken(user);
 
             return new AuthenticateResponse(success: true, string.Empty, user, token);
         }
 
-        public async Task<AuthenticateResponse> LoginWithGoogle(SocialAuthenticateRequest loginModel)
+        /// <summary>
+        /// Đăng nhập bằng Google
+        /// </summary>
+        /// <param name="authenModel"></param>
+        /// <returns></returns>
+        public async Task<AuthenticateResponse> LoginWithGoogle(SocialAuthenticateRequest authenModel)
         {
+            try
+            {
+                // Aadd settings: 
+                var validationSettings = new GoogleJsonWebSignature.ValidationSettings
+                {
+                    Audience = new string[] { _config.Google.ClientId },
+                };
+                // Add settings and then get the payload
+                GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(authenModel.Token, validationSettings);
 
-            //return new AuthenticateResponse(success: true, string.Empty, user, token);
-            return new AuthenticateResponse(success: true, string.Empty);
+                // Or Get the payload without settings.
+                //GoogleJsonWebSignature.Payload payload = await GoogleJsonWebSignature.ValidateAsync(token);
+
+                var user = new UserEntity()
+                {
+                    user_id = Guid.NewGuid(),
+                    user_name = payload.Email,
+                    full_name = payload.Name,
+                    status = UserStatus.Active
+                };
+
+                // Lấy người dùng theo username trong database
+                var existUser = await _repo.GetAsync<UserEntity>(nameof(UserEntity.user_name), user.user_name);
+
+                //Nếu đã có người dùng trong DB thì gán luôn
+                if (existUser != null && existUser.Any())
+                {
+                    user = existUser.FirstOrDefault();
+                }
+                //Nếu chưa thì tự động thêm người dùng mới
+                else
+                {
+                    //Lưu người dùng vào database
+                    await _repo.InsertAsync(user);
+                }
+
+                //gen token trả ra client
+                var token = GenerateJwtToken(user, payload.ExpirationTimeSeconds);
+                return new AuthenticateResponse(success: true, string.Empty, user, token);
+            }
+            catch (Exception)
+            {
+                return new AuthenticateResponse(success: false, AuthenResponseCode.GOOGLE_INVALIDTOKEN);
+            }
         }
 
-        public async Task<AuthenticateResponse> LoginWithFacebook(SocialAuthenticateRequest loginModel)
+        public async Task<AuthenticateResponse> LoginWithFacebook(SocialAuthenticateRequest authenModel)
         {
             //return new AuthenticateResponse(success: true, string.Empty, user, token);
             return new AuthenticateResponse(success: true, string.Empty);
@@ -123,14 +179,14 @@ namespace TT.BaseProject.Application.Business
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private string GenerateJwtToken(UserEntity user)
+        private string GenerateJwtToken(UserEntity user, long? expireSeconds = null)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_config.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.user_id.ToString()) }),
-                Expires = DateTime.UtcNow.AddMinutes(_config.ExpiredMinutes),
+                Expires = expireSeconds.HasValue ? DateTimeOffset.FromUnixTimeSeconds((long)expireSeconds).DateTime : DateTimeOffset.FromUnixTimeSeconds((long)_config.ExpiredMinutes * 60).DateTime,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -152,6 +208,7 @@ namespace TT.BaseProject.Application.Business
         {
             return BCrypt.Net.BCrypt.Verify(password, passwordHash);
         }
+
         #endregion
     }
 }

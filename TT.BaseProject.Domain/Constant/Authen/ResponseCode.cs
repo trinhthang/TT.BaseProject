@@ -12,6 +12,8 @@ namespace TT.BaseProject.Domain.Constant.Authen
         public const string EXIST_USER = "EXIST_USER";
         public const string NOTEXIST_USER = "NOT_EXIST_USER";
         public const string INVALIDUSERORPASSWORD = "INVALID_USERNAME_OR_PASSWORD";
-
+        public const string USER_INACTIVE = "USER_INACTIVE";
+        public const string USER_WAITACTIVE = "USER_WAITACTIVE";
+        public const string GOOGLE_INVALIDTOKEN = "GOOGLE_INVALIDTOKEN";
     }
 }
